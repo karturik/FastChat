@@ -20,8 +20,8 @@ from transformers import (
     AutoModelForCausalLM,
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
-    LlamaTokenizer,
-    LlamaForCausalLM,
+    # LlamaTokenizer,
+    # LlamaForCausalLM,
     T5Tokenizer,
 )
 
@@ -2351,6 +2351,16 @@ class YandexGPTAdapter(BaseModelAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("yandexgpt")
 
+
+class GigaChatAdapter(BaseModelAdapter):
+    """The model adapter for GigaChat"""
+
+    def match(self, model_path: str):
+        return "gigachat" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("gigachat")
+    
 
 class CllmAdapter(BaseModelAdapter):
     """The model adapter for CLLM"""

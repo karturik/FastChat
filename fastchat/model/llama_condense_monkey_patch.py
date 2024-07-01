@@ -4,7 +4,7 @@ from functools import partial
 
 import torch
 import transformers
-import transformers.models.llama.modeling_llama
+# import transformers.models.llama.modeling_llama
 
 
 class CondenseRotaryEmbedding(torch.nn.Module):

@@ -2,7 +2,7 @@ import gc
 from threading import Thread
 
 import torch
-from transformers import TextIteratorStreamer
+# from transformers import TextIteratorStreamer
 
 
 @torch.inference_mode()

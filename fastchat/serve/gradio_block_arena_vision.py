@@ -12,7 +12,7 @@ import os
 import time
 
 import gradio as gr
-from gradio.data_classes import FileData
+# from gradio.data_classes import FileData
 import numpy as np
 
 from fastchat.constants import (

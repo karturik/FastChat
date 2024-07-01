@@ -174,6 +174,32 @@ def get_api_provider_stream_iter(
             api_base=model_api_dict["api_base"],
             api_key=model_api_dict["api_key"],
         )
+    elif model_api_dict["api_type"] == "gigachat":
+        # note: top_p parameter is used by gigachat
+        logger.info('API type gigachat detected')
+        messages = []
+        # if conv.system_message:
+        #     messages.append({"role": "system", "content": conv.system_message})
+        # print('gigachat conversation: ', conv)
+        messages += [
+            {"role": role, "content": text} for role, text in conv.messages if text is not None
+        ]
+
+        # temperature = model_api_dict.get("fixed_temperature", None)
+        # if fixed_temperature is not None:
+        #     temperature = fixed_temperature
+
+        
+        
+        stream_iter = gigachat_api_stream_iter(
+            model_name=model_api_dict["model_name"],
+            messages=messages,
+            temperature=model_api_dict.get("fixed_temperature", None),
+            top_p=model_api_dict.get("top_p", None),
+            max_tokens=max_new_tokens,
+            api_base=model_api_dict["api_base"],
+        )
+
     else:
         raise NotImplementedError()
 
@@ -1035,3 +1061,47 @@ def reka_api_stream_iter(
             continue
         gen = json.loads(line[6:])
         yield {"text": gen["text"], "error_code": 0}
+
+def gigachat_api_stream_iter(model_name, messages, temperature, top_p, max_tokens, api_base):    
+    cert_path = os.getenv("GIGACHAT_CERT_PATH")
+    api_key = os.getenv("GIGACHAT_API_KEY")
+    
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+
+    payload = json.dumps({
+        "model": model_name,
+        "messages": messages,
+        "temperature": temperature,
+        "top_p": top_p,
+        "n": 1,
+        "stream": True,
+        "max_tokens": max_tokens,
+        "repetition_penalty": 1
+    })
+    logger.info(f"==== request ====\n{payload}")
+    print(f'Request temp and top_p: {temperature}, {top_p}')
+    response = requests.request("POST", api_base, headers=headers, data=payload, stream=True, timeout=60, verify=cert_path)
+
+    print(response.content)
+    
+    text = ""
+    for line in response.iter_lines():
+        # Печать строки для отладки
+        
+        if line:
+            # Пропуск префикса 'data: ' и проверка на конец стрима
+            if line.decode("utf-8").strip() == 'data: [DONE]':
+                break
+
+            data_str = line.decode("utf-8").replace("data: ", "")
+            data = json.loads(data_str)
+            
+            choice = data["choices"][0]
+            delta = choice["delta"]
+            if "content" in delta:
+                text += delta["content"]
+                yield {"text": text, "error_code": 0}

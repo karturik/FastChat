@@ -6,7 +6,7 @@ from transformers import (
     GenerationConfig,
     StoppingCriteria,
     StoppingCriteriaList,
-    TextIteratorStreamer,
+    # TextIteratorStreamer,
 )
 
 

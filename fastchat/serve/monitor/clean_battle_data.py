@@ -56,6 +56,7 @@ IDENTITY_WORDS = [
     "cohere",
     "DBRX",
     "databricks",
+    "gigachat",
 ]
 
 ERROR_WORDS = [

@@ -2060,6 +2060,16 @@ register_conv_template(
     )
 )
 
+register_conv_template(
+    Conversation(
+        name="gigachat",
+        system_message="",
+        roles=("user", "assistant"),
+        sep_style=SeparatorStyle.ADD_NEW_LINE_SINGLE,
+        sep="\n\n",
+    )
+)
+
 
 if __name__ == "__main__":
     from fastchat.conversation import get_conv_template

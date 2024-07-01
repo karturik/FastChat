@@ -4,7 +4,7 @@ from typing import Iterable
 
 import torch
 import transformers
-from transformers import TextIteratorStreamer, GenerationConfig
+# from transformers import TextIteratorStreamer, GenerationConfig
 
 from fastchat.utils import is_partial_stop
 

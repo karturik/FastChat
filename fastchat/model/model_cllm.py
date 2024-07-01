@@ -5,16 +5,16 @@ import os
 import time
 import random
 from typing import Dict, Optional, Sequence, List, Tuple
-from transformers.cache_utils import Cache, DynamicCache
+# from transformers.cache_utils import Cache, DynamicCache
 from transformers import (
-    LlamaModel,
-    LlamaForCausalLM,
+    # LlamaModel,
+    # LlamaForCausalLM,
     GenerationConfig,
     StoppingCriteria,
     StoppingCriteriaList,
-    TextIteratorStreamer,
+    # TextIteratorStreamer,
 )
-from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_mask
+# from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_mask
 import torch.nn.functional as F
 
 

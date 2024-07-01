@@ -762,3 +762,17 @@ register_model_info(
     "https://reka.ai/reka-flash",
     "Multimodal model by Reka",
 )
+
+register_model_info(
+    [
+        "GigaChat",
+        "GigaChat-Plus",
+        "GigaChat-Plus-preview",
+        "GigaChat-Pro",
+        "GigaChat-Pro-preview",
+        "GigaChat-preview",
+    ],
+    "GigaChat",
+    "https://developers.sber.ru/gigachat/",
+    "GigaChat — русскоязычная нейросеть от Сбера.",
+)
